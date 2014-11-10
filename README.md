@@ -14,6 +14,14 @@ A **solr** folder will appear in the project wich is symlinked in the box.
 
 http://localhost:8983/solr/
 
+## Troubleshooting
+
+For now you need to restart solr service each time you up.
+
+    service solr restart
+
+-> http://razius.com/articles/launching-services-after-vagrant-mount/
+
 ## License
 
 MIT
