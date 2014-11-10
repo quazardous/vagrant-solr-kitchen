@@ -12,6 +12,8 @@ Tested SolR version : 4.10.2
 
 A **solr** folder will appear in the project wich is symlinked in the box.
 
+http://localhost:8983/solr/
+
 ## License
 
 MIT
