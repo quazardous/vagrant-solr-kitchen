@@ -4,6 +4,7 @@ version=4.10.2
 tarurl=http://www.eu.apache.org/dist/lucene/solr/$version/solr-$version.tgz
 initshurl=http://dev.eclipse.org/svnroot/rt/org.eclipse.jetty/jetty/trunk/jetty-distribution/src/main/resources/bin/jetty.sh
 solrbase=/opt/solr
+# choose initial conf from example
 #solrconf=solr
 solrconf=multicore
 vagrantproject=/vagrant
@@ -11,10 +12,9 @@ solrprojectconf=solr
 vagrantgroup=vagrant
 solruser=solr
 solrgroup=solr
-debug=1
 
 restart=
-if [[ ! -z "$debug" ]] || [[ ! -d $solrbase ]];then
+if [[ ! -d $solrbase ]];then
 	useradd -r -d $solrbase -M -c "Apache Solr" $solruser -G $vagrantgroup
 	usermod $solruser -G $vagrantgroup
 (
@@ -41,9 +41,6 @@ if [[ ! -z "$debug" ]] || [[ ! -d $solrbase ]];then
 		# initialize default solr conf in project
 		mkdir -p $vagrantproject/$solrprojectconf
 		cp -r work/solr-$version/example/$solrconf $vagrantproject/$solrprojectconf
-		chown -R $vagrantuser:$solrgroup $vagrantproject/$solrprojectconf/$solrconf
-		# ugly but working
-		chmod -R ugo+w $vagrantproject/$solrprojectconf/$solrconf
 		echo "SolR conf is available in your project in $solrprojectconf/$solrconf"
 	fi
 	
