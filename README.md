@@ -22,6 +22,10 @@ For now you need to restart solr service each time you up.
 
 -> http://razius.com/articles/launching-services-after-vagrant-mount/
 
+So full install is :
+
+    vagrant up && vagrant ssh -c 'sudo service solr restart'
+
 ## License
 
 MIT
