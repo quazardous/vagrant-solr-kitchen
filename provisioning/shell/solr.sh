@@ -4,6 +4,8 @@ version=4.10.2
 tarurl=http://www.eu.apache.org/dist/lucene/solr/$version/solr-$version.tgz
 initshurl=http://dev.eclipse.org/svnroot/rt/org.eclipse.jetty/jetty/trunk/jetty-distribution/src/main/resources/bin/jetty.sh
 solrbase=/opt/solr
+# existing default web solr distrib
+distrib=example
 # choose initial conf from example
 #solrconf=solr
 solrconf=multicore
@@ -15,8 +17,9 @@ solrgroup=solr
 
 restart=
 if [[ ! -d $solrbase ]];then
-	useradd -r -d $solrbase -M -c "Apache Solr" $solruser -G $vagrantgroup
-	usermod $solruser -G $vagrantgroup
+	service solr stop 2>/dev/null
+	useradd -r -d $solrbase/$distrib -M -c "Apache Solr" $solruser -G $vagrantgroup
+	usermod -d $solrbase/$distrib -G $vagrantgroup $solruser
 (
 	echo "SolR install..."
 	cd /tmp
@@ -33,9 +36,12 @@ if [[ ! -d $solrbase ]];then
 	tar xzf solr-$version.tgz -C work
 	if [[ ! -d $solrbase ]];then
 		# install SolR
-		cp -r work/solr-$version/example $solrbase
-		rm -rf $solrbase/$solrconf
-		chown -R $solruser:$solrgroup $solrbase
+		cp -r work/solr-$version $solrbase
+		if [[ ! -d $solrbase/$distrib ]];then
+			cp -pr $solrbase/example $solrbase/$distrib
+		fi
+		rm -rf $solrbase/$distrib/$solrconf
+		chown -R $solruser:$solrgroup $solrbase/$distrib
 	fi
 	if [[ ! -d $vagrantproject/$solrprojectconf ]];then
 		# initialize default solr conf in project
@@ -44,10 +50,10 @@ if [[ ! -d $solrbase ]];then
 		echo "SolR conf is available in your project in $solrprojectconf/$solrconf"
 	fi
 	
-	ln -snf $vagrantproject/$solrprojectconf/$solrconf $solrbase/$solrconf
+	ln -snf $vagrantproject/$solrprojectconf/$solrconf $solrbase/$distrib/$solrconf
 	rm -rf work
 
-	echo "SolR installed in $solrbase"
+	echo "SolR installed in $solrbase/$distrib"
 )
 	restart=1
 fi
@@ -55,10 +61,10 @@ fi
 if [[ ! -f /etc/sysconfig/solr ]];then
 	cat <<EOF > /etc/sysconfig/solr
 JAVA_HOME=/usr/java/default
-JAVA_OPTIONS="-Dsolr.solr.home=$solrbase/$solrconf $JAVA_OPTIONS"
-JETTY_HOME=$solrbase
+JAVA_OPTIONS="-Dsolr.solr.home=$solrbase/$distrib/$solrconf -Dsolr.contrib.dir=$solrbase/contrib $JAVA_OPTIONS"
+JETTY_HOME=$solrbase/$distrib
 JETTY_USER=$solruser
-JETTY_LOGS=$solrbase/logs	
+JETTY_LOGS=$solrbase/$distrib/logs	
 EOF
 	restart=1
 fi

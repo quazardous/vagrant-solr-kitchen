@@ -14,7 +14,10 @@ A **solr** folder will appear in the project wich is symlinked in the box.
 
 http://localhost:8983/solr/
 
+
 ## Troubleshooting
+
+### Service statup
 
 For now you need to restart solr service each time you up.
 
@@ -25,6 +28,10 @@ For now you need to restart solr service each time you up.
 So full install is :
 
     vagrant up && vagrant ssh -c 'sudo service solr restart'
+
+### SolR contrib
+
+The box inject the correct **solr.contrib.dir** so you may check your **solrcore.properties** file and not override this property.
 
 ## License
 
