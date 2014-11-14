@@ -25,9 +25,10 @@ http://localhost:8983/solr/
 
 ### SolR conf
 
-the SolR conf is available in the **.solr/multicore/** folder.
+the SolR conf is available in the **./solr/multicore/** folder.
 
 Steps :
+
 1. Edit/copy the conf
 2. restart solr service
 
