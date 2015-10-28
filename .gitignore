@@ -2,3 +2,7 @@
 /.project
 /solr/
 /.vagrant/
+/params.yml
+/.buildpath
+/tmp/
+/logs/

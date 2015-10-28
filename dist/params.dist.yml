@@ -1,0 +1,3 @@
+forwarded_port:
+  host: 8983
+  guest: 8983
