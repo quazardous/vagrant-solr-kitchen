@@ -1,6 +1,6 @@
 ## Vagrant SolR5 Kitchen
 
-A simple Centos65-x64 based SolR box. The main provision part is in **bash**.
+A simple Centos65-x64 based SolR5 box. The main provision part is in **bash**.
 
 Master branch documentation is for SolR 5.
 
