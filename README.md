@@ -1,4 +1,4 @@
-## Vagrant SolR 5 Kitchen
+## Vagrant SolR5 Kitchen
 
 A simple Centos65-x64 based SolR box. The main provision part is in **bash**.
 
